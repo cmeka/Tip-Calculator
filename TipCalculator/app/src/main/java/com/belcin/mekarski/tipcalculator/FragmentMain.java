@@ -20,8 +20,8 @@ public class FragmentMain extends Fragment {
      * The fragment argument representing the section number for this
      * fragment.
      */
-    EditText editTextBill, editTextTip, editTextSplit;
-    TextView textViewBill;
+    EditText billEditText, tipEditText, splitEditText;
+    TextView billTextView, tipTextView, totalTextView;
 
     private static final String ARG_SECTION_NUMBER = "section_number";
 
@@ -45,11 +45,18 @@ public class FragmentMain extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        editTextBill=(EditText)rootView.findViewById(R.id.billValue);
-        textViewBill=(TextView)rootView.findViewById(R.id.textViewBill);
+        billEditText=(EditText)rootView.findViewById(R.id.billEditText);
+        billTextView=(TextView)rootView.findViewById(R.id.billAmount);
+
+        tipEditText=(EditText)rootView.findViewById(R.id.tipEditText);
+        tipTextView=(TextView)rootView.findViewById(R.id.tipAmount);
+
+        splitEditText=(EditText)rootView.findViewById(R.id.splitEditText);
 
         // Attach TextWatcher to EditText
-        editTextBill.addTextChangedListener(mTextEditorWatcher);
+        billEditText.addTextChangedListener(mTextEditorWatcher);
+        tipEditText.addTextChangedListener(mTextEditorWatcher);
+        splitEditText.addTextChangedListener(mTextEditorWatcher);
 
         return rootView;
     }
@@ -66,7 +73,7 @@ public class FragmentMain extends Fragment {
         public void beforeTextChanged(CharSequence s, int start, int count, int after)
         {
             // When No Password Entered
-            textViewBill.setText("Not Entered");
+            billTextView.setText("Not Entered");
         }
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count)
@@ -76,7 +83,19 @@ public class FragmentMain extends Fragment {
         @Override
         public void afterTextChanged(Editable s)
         {
-            textViewBill.setText(s.toString());
+            double billValue = 0, tipValue = 0;
+            try {
+                billValue = Double.parseDouble(billEditText.getText().toString());
+            } catch (Exception e) {
+                //
+            }
+            try {
+                tipValue = Double.parseDouble(tipEditText.getText().toString());
+            } catch (Exception e) {
+                //
+            }
+            billTextView.setText(String.valueOf(billValue));
+            tipTextView.setText(String.valueOf(tipValue));
         }
     };
 
