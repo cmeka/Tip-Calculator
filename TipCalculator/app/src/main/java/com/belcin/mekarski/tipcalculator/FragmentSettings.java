@@ -1,22 +1,22 @@
 package com.belcin.mekarski.tipcalculator;
 
-import android.support.v4.app.Fragment;
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.widget.TextView;
 
 /**
  * Created by Chris on 2015-01-27.
  */
-public class FragmentMain extends Fragment {
+public class FragmentSettings extends Fragment {
 
     /**
      * The fragment argument representing the section number for this
@@ -33,21 +33,21 @@ public class FragmentMain extends Fragment {
      * Returns a new instance of this fragment for the given section
      * number.
      */
-    public FragmentMain newInstance(int sectionNumber) {
-        FragmentMain fragment = new FragmentMain();
+    public FragmentSettings newInstance(int sectionNumber) {
+        FragmentSettings fragment = new FragmentSettings();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
         fragment.setArguments(args);
         return fragment;
     }
 
-    public FragmentMain() {
+    public FragmentSettings() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_settings, container, false);
         //bill
         billEditText=(EditText)rootView.findViewById(R.id.billEditText);
         billTextView=(TextView)rootView.findViewById(R.id.billAmount);

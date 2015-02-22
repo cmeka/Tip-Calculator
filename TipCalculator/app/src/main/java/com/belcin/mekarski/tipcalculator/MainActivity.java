@@ -66,8 +66,10 @@ public class MainActivity extends ActionBarActivity
                 break;
             case 1:
                 //Settings
-                Intent intent = new Intent(this, SettingsActivity.class);
-                startActivity(intent);
+                fragment = new FragmentSettings().newInstance(position+1);
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, fragment)
+                        .commit();
                 break;
             case 2:
                 //About

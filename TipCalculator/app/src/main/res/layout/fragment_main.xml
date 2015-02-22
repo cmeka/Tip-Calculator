@@ -147,7 +147,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/splitSeekBar"
             android:layout_weight="1"
-            android:max="20"
+            android:max="19"
             android:indeterminate="false" />
     </LinearLayout>
 
@@ -156,7 +156,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_weight="0.37"></LinearLayout>
+        android:layout_weight="0.37">
+
+    </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
