@@ -12,6 +12,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.content.Context;
+import android.app.Application;
+
+
+
 
 /**
  * Created by Chris on 2015-01-27.
@@ -48,6 +56,15 @@ public class FragmentMain extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        //prefs.registerOnSharedPreferenceChangeListener(this);
+        double defaultTip = 10;
+        //try {
+        //     defaultTip = Integer.parseInt((prefs.getString("default_tip")));
+        //} catch (Exception e) {
+            //
+        //}
+
         //bill
         billEditText=(EditText)rootView.findViewById(R.id.billEditText);
         billTextView=(TextView)rootView.findViewById(R.id.billAmount);
@@ -65,7 +82,7 @@ public class FragmentMain extends Fragment {
         totalPerPerson=(TextView)rootView.findViewById(R.id.totalPerPerson);
 
         // Initial values
-        tipEditText.setText(Integer.toString(10)); // Initial tip value
+        tipEditText.setText(Double.toString(defaultTip)); // Initial tip value
         splitEditText.setText(Integer.toString(1)); // Initial split value
         //init summary with zeros
         billTextView.setText(String.valueOf(0));

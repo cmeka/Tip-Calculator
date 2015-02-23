@@ -4,6 +4,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.preference.PreferenceFragment;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
@@ -66,10 +67,8 @@ public class MainActivity extends ActionBarActivity
                 break;
             case 1:
                 //Settings
-                fragment = new FragmentSettings().newInstance(position+1);
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, fragment)
-                        .commit();
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
                 break;
             case 2:
                 //About
