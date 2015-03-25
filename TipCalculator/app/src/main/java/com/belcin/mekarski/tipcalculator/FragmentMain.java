@@ -3,6 +3,7 @@ package com.belcin.mekarski.tipcalculator;
 import android.support.v4.app.Fragment;
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.Menu;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -11,12 +12,20 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.SeekBar;
+import android.widget.RatingBar;
+import android.widget.Button;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.content.Context;
 import android.app.Application;
+import android.view.View.OnTouchListener;
+import android.view.View.OnClickListener;
+import android.view.MotionEvent;
+import android.widget.ViewSwitcher;
+import android.widget.RatingBar.OnRatingBarChangeListener;
+
 
 
 
@@ -33,6 +42,10 @@ public class FragmentMain extends Fragment {
     private EditText billEditText, tipEditText, splitEditText;
     private TextView billTextView, tipTextView, totalTextView, tipPerPerson, totalPerPerson;
     private SeekBar tipSeekBar, splitSeekBar;
+    private RatingBar tipRatingBar;
+    private Button suggestButton;
+    private ViewSwitcher viewSwitcher;
+    View myFirstView, mySecondView;
 
 
     private static final String ARG_SECTION_NUMBER = "section_number";
@@ -55,15 +68,27 @@ public class FragmentMain extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        //create view
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+
+        myFirstView= rootView.findViewById(R.id.mainView);
+        mySecondView = rootView.findViewById(R.id.ratingView);
+
+        // Try to get prefs (doesn't work)
         //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         //prefs.registerOnSharedPreferenceChangeListener(this);
-        double defaultTip = 10;
-        //try {
-        //     defaultTip = Integer.parseInt((prefs.getString("default_tip")));
-        //} catch (Exception e) {
+        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        //sharedPref.registerOnSharedPreferenceChangeListener(getActivity());
+
+        double defaultTip = 15;
+        try {
+            //defaultTip = Integer.parseInt((prefs.getString("example_text")));
+            defaultTip = sharedPref.getInt(getString(R.xml.pref_general), 15);
+        } catch (Exception e) {
             //
-        //}
+        }
+
+        viewSwitcher = (ViewSwitcher)rootView.findViewById(R.id.ViewSwitcher);
 
         //bill
         billEditText=(EditText)rootView.findViewById(R.id.billEditText);
@@ -72,6 +97,9 @@ public class FragmentMain extends Fragment {
         tipEditText=(EditText)rootView.findViewById(R.id.tipEditText);
         tipSeekBar=(SeekBar)rootView.findViewById(R.id.tipSeekBar);
         tipTextView=(TextView)rootView.findViewById(R.id.tipAmount);
+        tipRatingBar=(RatingBar)rootView.findViewById(R.id.ratingBar);
+        suggestButton=(Button)rootView.findViewById(R.id.suggestButton);
+
         //split
         splitEditText=(EditText)rootView.findViewById(R.id.splitEditText);
         splitSeekBar=(SeekBar)rootView.findViewById(R.id.splitSeekBar);
@@ -83,6 +111,7 @@ public class FragmentMain extends Fragment {
 
         // Initial values
         tipEditText.setText(Double.toString(defaultTip)); // Initial tip value
+        tipSeekBar.setProgress((int)defaultTip);
         splitEditText.setText(Integer.toString(1)); // Initial split value
         //init summary with zeros
         billTextView.setText(String.valueOf(0));
@@ -126,6 +155,35 @@ public class FragmentMain extends Fragment {
                 splitEditText.setText(Integer.toString(progress+1));
             }
         });
+
+        suggestButton.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                // TODO Auto-generated method stub
+                if (viewSwitcher.getCurrentView() != myFirstView){
+
+                    viewSwitcher.showPrevious();
+                } else if (viewSwitcher.getCurrentView() != mySecondView){
+
+                    viewSwitcher.showNext();
+                }
+            }
+        });
+
+
+        tipRatingBar.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
+
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating,
+                                        boolean fromUser) {
+
+                tipEditText.setText(Float.toString(10+(rating*2)));
+                tipSeekBar.setProgress(10+((int)rating*2));
+                viewSwitcher.showPrevious();
+            }
+        });
+
 
         return rootView;
     }
